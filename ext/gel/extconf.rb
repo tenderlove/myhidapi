@@ -18,6 +18,8 @@ end
 
 pkg_config 'hidapi'
 
-have_header 'hidapi.h'
+dir_config("hidapi", cppflags, ldflags)
+
+raise "Install hidapi" unless have_header 'hidapi.h'
 
 create_makefile 'gel'

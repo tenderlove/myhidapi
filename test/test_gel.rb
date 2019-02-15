@@ -3,6 +3,7 @@ require 'gel'
 
 class TestGel < MiniTest::Test
   def test_it_works
-    enum = Gel::Enumerate.new 0x0, 0x0
+    devices = Gel.enumerate 0x0, 0x0
+    p devices.find { |dev| dev.product_string == "ErgoDox EZ" }
   end
 end
