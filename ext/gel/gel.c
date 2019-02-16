@@ -84,7 +84,7 @@ rb_hid_write(VALUE self, VALUE str)
 
     TypedData_Get_Struct(self, hid_device, &gel_handle_type, handle);
 
-    written = hid_write(handle, (unsigned char *)StringValueCStr(str), RSTRING_LEN(str));
+    written = hid_write(handle, (unsigned char *)StringValuePtr(str), RSTRING_LEN(str));
 
     if (written >= 0) {
 	return INT2NUM(written);
