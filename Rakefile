@@ -28,6 +28,11 @@ HOE = Hoe.spec 'gel' do
   self.readme_file   = 'README.md'
   self.history_file  = 'CHANGELOG.md'
   self.extra_rdoc_files  = FileList['*.md']
+
+  self.spec_extras = {
+    :extensions => ["ext/gel/extconf.rb"],
+    :required_ruby_version => '>= 2.3.0'
+  }
 end
 
 Rake::ExtensionTask.new("gel", HOE.spec) do |ext|
