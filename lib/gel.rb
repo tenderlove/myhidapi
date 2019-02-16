@@ -1,7 +1,7 @@
 require "gel.so"
 
 module Gel
-  VERSION = '1.0.2'
+  VERSION = '1.0.3'
 
   class DeviceInfo
     attr_reader :vendor_id, :product_id, :path, :serial_number, :manufacturer_string, :product_string, :usage, :interface_number
