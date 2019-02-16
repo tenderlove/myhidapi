@@ -1,26 +1,51 @@
 # gel
 
-* FIX (url)
+* https://github.com/tenderlove/gel
 
 ## DESCRIPTION:
 
-FIX (describe your package)
+This is a small wrapper around HIDAPI.  I couldn't get other HIDAPI wrappers to
+work, so I wrote this one.  I'm using it to communicate with my keyboard, so
+it really only supports enough of the HIDAPI to do that.
 
 ## FEATURES/PROBLEMS:
 
-* FIX (list of features or problems)
+* Incomplete
+* No tests
+* Seems to work (for me)
 
 ## SYNOPSIS:
 
-  FIX (code sample of usage)
+```ruby
+ devices = Gel.enumerate 0x0, 0x0
+ dev = devices.find { |dev| dev.product_string == "ErgoDox EZ" }
+
+ handle = dev.open
+
+ while !handle
+   p "retry"
+   handle = dev.open
+ end
+
+ p handle
+
+ buf = [0x0, 0x3, 35]
+ loop do
+   break if handle.write buf.pack('C*')
+ end
+ puts "done writing"
+
+ buf = handle.read_timeout 1, 500
+ p buf
+ ```
 
 ## REQUIREMENTS:
 
-* FIX (list of requirements)
+This depends on libhidapi.
 
 ## INSTALL:
 
-* FIX (sudo gem install, anything else)
+* Install hidapi.  On MacOS that is `brew install hidapi`
 
 ## LICENSE:
 
