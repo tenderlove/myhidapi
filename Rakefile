@@ -1,7 +1,22 @@
 # -*- ruby -*-
 
 require 'rubygems'
-require 'hoe'
+
+tries = 0
+begin
+  require 'hoe'
+  require 'minitest'
+  require 'rake/extensiontask'
+rescue LoadError
+  tries += 1
+  Gem.install 'hoe'
+  Gem.install 'rake-compiler'
+  Gem.install 'hoe-gemspec'
+  Gem.install 'hoe-git'
+  Gem.install 'minitest'
+  raise unless tries < 10
+  retry
+end
 
 Hoe.plugin :minitest
 Hoe.plugin :gemspec # `gem install hoe-gemspec`
@@ -15,7 +30,6 @@ HOE = Hoe.spec 'gel' do
   self.extra_rdoc_files  = FileList['*.md']
 end
 
-require 'rake/extensiontask'
 Rake::ExtensionTask.new("gel", HOE.spec) do |ext|
 end
 

@@ -84,7 +84,7 @@ rb_hid_write(VALUE self, VALUE str)
 
     TypedData_Get_Struct(self, hid_device, &gel_handle_type, handle);
 
-    written = hid_write(handle, StringValuePtr(str), RSTRING_LEN(str));
+    written = hid_write(handle, (unsigned char *)StringValueCStr(str), RSTRING_LEN(str));
 
     if (written >= 0) {
 	return INT2NUM(written);
@@ -120,7 +120,7 @@ rb_hid_read(VALUE self, VALUE size)
     read = hid_read(handle, buf, NUM2INT(size));
 
     if (read > 0) {
-	ret = rb_str_new(buf, read);
+	ret = rb_str_new((char *)buf, read);
     } else {
 	ret = Qnil;
     }
@@ -143,7 +143,7 @@ rb_hid_read_timeout(VALUE self, VALUE size, VALUE timeout_ms)
     read = hid_read_timeout(handle, buf, NUM2INT(size), NUM2INT(timeout_ms));
 
     if (read > 0) {
-	ret = rb_str_new(buf, read);
+	ret = rb_str_new((char *)buf, read);
     } else {
 	ret = Qnil;
     }
