@@ -20,6 +20,6 @@ pkg_config 'hidapi'
 
 dir_config("hidapi", cppflags, ldflags)
 
-raise "Install hidapi" unless have_header 'hidapi.h'
+raise "Install hidapi (brew install hidapi)" unless have_header 'hidapi.h'
 
 create_makefile 'gel'
