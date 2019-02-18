@@ -42,7 +42,7 @@ enumerate(VALUE mod, VALUE vendor_id, VALUE product_id)
     struct hid_device_info *devs, *cur_dev;
 
     devices = rb_ary_new();
-    devs = hid_enumerate(NUM2SHORT(vendor_id), NUM2SHORT(product_id));
+    devs = hid_enumerate(NUM2USHORT(vendor_id), NUM2USHORT(product_id));
     cur_dev = devs;
     while (cur_dev) {
 	rb_ary_push(devices, rb_funcall(mGel, rb_intern("build_device_info"), 8,
@@ -115,9 +115,9 @@ rb_hid_read(VALUE self, VALUE size)
 
     TypedData_Get_Struct(self, hid_device, &gel_handle_type, handle);
 
-    buf = xcalloc(NUM2INT(size), sizeof(unsigned char));
+    buf = xcalloc(NUM2SIZET(size), sizeof(unsigned char));
 
-    read = hid_read(handle, buf, NUM2INT(size));
+    read = hid_read(handle, buf, NUM2SIZET(size));
 
     if (read > 0) {
 	ret = rb_str_new((char *)buf, read);
@@ -138,9 +138,9 @@ rb_hid_read_timeout(VALUE self, VALUE size, VALUE timeout_ms)
 
     TypedData_Get_Struct(self, hid_device, &gel_handle_type, handle);
 
-    buf = xcalloc(NUM2INT(size), sizeof(unsigned char));
+    buf = xcalloc(NUM2SIZET(size), sizeof(unsigned char));
 
-    read = hid_read_timeout(handle, buf, NUM2INT(size), NUM2INT(timeout_ms));
+    read = hid_read_timeout(handle, buf, NUM2SIZET(size), NUM2INT(timeout_ms));
 
     if (read > 0) {
 	ret = rb_str_new((char *)buf, read);
