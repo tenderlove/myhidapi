@@ -77,6 +77,20 @@ rb_hid_open(VALUE mod, VALUE vid, VALUE pid)
 }
 
 static VALUE
+rb_hid_open_path(VALUE mod, VALUE path)
+{
+    hid_device *handle;
+
+    handle = hid_open_path(StringValueCStr(path));
+
+    if (handle) {
+	return TypedData_Wrap_Struct(cGelHandle, &gel_handle_type, handle);
+    } else {
+	return Qfalse;
+    }
+}
+
+static VALUE
 rb_hid_write(VALUE self, VALUE str)
 {
     hid_device *handle;
@@ -156,6 +170,7 @@ void Init_gel() {
     cGelHandle = rb_define_class_under(mGel, "Handle", rb_cObject);
     rb_define_singleton_method(mGel, "enumerate", enumerate, 2);
     rb_define_singleton_method(mGel, "open", rb_hid_open, 2);
+    rb_define_singleton_method(mGel, "open_path", rb_hid_open_path, 1);
     rb_define_method(cGelHandle, "write", rb_hid_write, 1);
     rb_define_method(cGelHandle, "read", rb_hid_read, 1);
     rb_define_method(cGelHandle, "read_timeout", rb_hid_read_timeout, 2);
