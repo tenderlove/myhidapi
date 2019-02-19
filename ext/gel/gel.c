@@ -42,7 +42,7 @@ enumerate(VALUE mod, VALUE vendor_id, VALUE product_id)
     struct hid_device_info *devs, *cur_dev;
 
     devices = rb_ary_new();
-    devs = hid_enumerate(NUM2SHORT(vendor_id), NUM2SHORT(product_id));
+    devs = hid_enumerate(NUM2USHORT(vendor_id), NUM2USHORT(product_id));
     cur_dev = devs;
     while (cur_dev) {
 	rb_ary_push(devices, rb_funcall(mGel, rb_intern("build_device_info"), 8,
@@ -68,6 +68,20 @@ rb_hid_open(VALUE mod, VALUE vid, VALUE pid)
     hid_device *handle;
 
     handle = hid_open(NUM2USHORT(vid), NUM2USHORT(pid), NULL);
+
+    if (handle) {
+	return TypedData_Wrap_Struct(cGelHandle, &gel_handle_type, handle);
+    } else {
+	return Qfalse;
+    }
+}
+
+static VALUE
+rb_hid_open_path(VALUE mod, VALUE path)
+{
+    hid_device *handle;
+
+    handle = hid_open_path(StringValueCStr(path));
 
     if (handle) {
 	return TypedData_Wrap_Struct(cGelHandle, &gel_handle_type, handle);
@@ -115,9 +129,9 @@ rb_hid_read(VALUE self, VALUE size)
 
     TypedData_Get_Struct(self, hid_device, &gel_handle_type, handle);
 
-    buf = xcalloc(NUM2INT(size), sizeof(unsigned char));
+    buf = xcalloc(NUM2SIZET(size), sizeof(unsigned char));
 
-    read = hid_read(handle, buf, NUM2INT(size));
+    read = hid_read(handle, buf, NUM2SIZET(size));
 
     if (read > 0) {
 	ret = rb_str_new((char *)buf, read);
@@ -138,9 +152,9 @@ rb_hid_read_timeout(VALUE self, VALUE size, VALUE timeout_ms)
 
     TypedData_Get_Struct(self, hid_device, &gel_handle_type, handle);
 
-    buf = xcalloc(NUM2INT(size), sizeof(unsigned char));
+    buf = xcalloc(NUM2SIZET(size), sizeof(unsigned char));
 
-    read = hid_read_timeout(handle, buf, NUM2INT(size), NUM2INT(timeout_ms));
+    read = hid_read_timeout(handle, buf, NUM2SIZET(size), NUM2INT(timeout_ms));
 
     if (read > 0) {
 	ret = rb_str_new((char *)buf, read);
@@ -156,6 +170,7 @@ void Init_gel() {
     cGelHandle = rb_define_class_under(mGel, "Handle", rb_cObject);
     rb_define_singleton_method(mGel, "enumerate", enumerate, 2);
     rb_define_singleton_method(mGel, "open", rb_hid_open, 2);
+    rb_define_singleton_method(mGel, "open_path", rb_hid_open_path, 1);
     rb_define_method(cGelHandle, "write", rb_hid_write, 1);
     rb_define_method(cGelHandle, "read", rb_hid_read, 1);
     rb_define_method(cGelHandle, "read_timeout", rb_hid_read_timeout, 2);
