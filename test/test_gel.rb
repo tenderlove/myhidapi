@@ -24,4 +24,10 @@ class TestGel < MiniTest::Test
     buf = handle.read_timeout 1, 500
     p buf
   end
+
+  def test_can_enumerate_by_ids
+    devices = Gel.enumerate(0xfeed, 0x1307)
+
+    refute_predicate devices, :empty?
+  end
 end
