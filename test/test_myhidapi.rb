@@ -1,9 +1,9 @@
 require 'minitest/autorun'
-require 'gel'
+require 'myhidapi'
 
-class TestGel < MiniTest::Test
+class TestMyHIDAPI < MiniTest::Test
   def test_it_works
-    devices = Gel.enumerate 0x0, 0x0
+    devices = MyHIDAPI.enumerate 0x0, 0x0
     dev = devices.find { |dev| dev.product_string == "ErgoDox EZ" }
 
     handle = dev.open
@@ -26,7 +26,7 @@ class TestGel < MiniTest::Test
   end
 
   def test_can_enumerate_by_ids
-    devices = Gel.enumerate(0xfeed, 0x1307)
+    devices = MyHIDAPI.enumerate(0xfeed, 0x1307)
 
     refute_predicate devices, :empty?
   end

@@ -2,9 +2,9 @@ CHANGELOG.md
 Manifest.txt
 README.md
 Rakefile
-ext/gel/extconf.rb
-ext/gel/gel.c
-lib/gel.rb
+ext/myhidapi/extconf.rb
+ext/myhidapi/myhidapi.c
+lib/myhidapi.rb
 sample/kbprog.rb
 sample/set_hsv.rb
-test/test_gel.rb
+test/test_myhidapi.rb

@@ -1,6 +1,6 @@
-# gel
+# MyHIDAPI
 
-* https://github.com/tenderlove/gel
+* https://github.com/tenderlove/myhidapi
 
 ## DESCRIPTION:
 
@@ -17,7 +17,7 @@ it really only supports enough of the HIDAPI to do that.
 ## SYNOPSIS:
 
 ```ruby
- devices = Gel.enumerate 0x0, 0x0
+ devices = MyHIDAPI.enumerate 0x0, 0x0
  dev = devices.find { |dev| dev.product_string == "ErgoDox EZ" }
 
  handle = dev.open

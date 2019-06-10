@@ -22,7 +22,7 @@ Hoe.plugin :minitest
 Hoe.plugin :gemspec # `gem install hoe-gemspec`
 Hoe.plugin :git     # `gem install hoe-git`
 
-HOE = Hoe.spec 'gel' do
+HOE = Hoe.spec 'myhidapi' do
   developer('Aaron Patterson', 'tenderlove@ruby-lang.org')
   license "MIT"
   self.readme_file   = 'README.md'
@@ -30,12 +30,12 @@ HOE = Hoe.spec 'gel' do
   self.extra_rdoc_files  = FileList['*.md']
 
   self.spec_extras = {
-    :extensions => ["ext/gel/extconf.rb"],
+    :extensions => ["ext/myhidapi/extconf.rb"],
     :required_ruby_version => '>= 2.3.0'
   }
 end
 
-Rake::ExtensionTask.new("gel", HOE.spec) do |ext|
+Rake::ExtensionTask.new("myhidapi", HOE.spec) do |ext|
 end
 
 # vim: syntax=ruby

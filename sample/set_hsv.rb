@@ -1,11 +1,11 @@
-require 'gel'
+require 'myhidapi'
 
 def try_block times
   times.times { x = yield; return x if x }
   raise "Couldn't do it"
 end
 
-dev = Gel.enumerate(0x0, 0x0).find { |dev| dev.product_string == "ErgoDox EZ" }
+dev = MyHIDAPI.enumerate(0x0, 0x0).find { |dev| dev.product_string == "ErgoDox EZ" }
 
 handle = try_block(10) { dev.open }
 p handle

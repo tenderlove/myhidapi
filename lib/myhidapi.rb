@@ -1,6 +1,6 @@
-require "gel.so"
+require "myhidapi.so"
 
-module Gel
+module MyHIDAPI
   VERSION = '1.0.4'
 
   class DeviceInfo
@@ -18,7 +18,7 @@ module Gel
     end
 
     def open
-      Gel.open vendor_id, product_id
+      MyHIDAPI.open vendor_id, product_id
     end
   end
 
