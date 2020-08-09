@@ -165,6 +165,30 @@ rb_hid_read_timeout(VALUE self, VALUE size, VALUE timeout_ms)
     return ret;
 }
 
+static VALUE
+rb_manufacturer(VALUE self)
+{
+    hid_device *handle;
+    TypedData_Get_Struct(self, hid_device, &myhidapi_handle_type, handle);
+
+    wchar_t buffer[BUF_SIZE];
+    hid_get_manufacturer_string(handle, buffer, BUF_SIZE);
+
+    return rb_wcstombs(buffer);
+}
+
+static VALUE
+rb_product(VALUE self)
+{
+    hid_device *handle;
+    TypedData_Get_Struct(self, hid_device, &myhidapi_handle_type, handle);
+
+    wchar_t buffer[BUF_SIZE];
+    hid_get_product_string(handle, buffer, BUF_SIZE);
+
+    return rb_wcstombs(buffer);
+}
+
 void Init_myhidapi() {
     mMyHIDAPI = rb_define_module("MyHIDAPI");
     cMyHIDAPIHandle = rb_define_class_under(mMyHIDAPI, "Handle", rb_cObject);
@@ -175,4 +199,6 @@ void Init_myhidapi() {
     rb_define_method(cMyHIDAPIHandle, "read", rb_hid_read, 1);
     rb_define_method(cMyHIDAPIHandle, "read_timeout", rb_hid_read_timeout, 2);
     rb_define_method(cMyHIDAPIHandle, "set_nonblocking", rb_hid_set_nonblocking, 1);
+    rb_define_method(cMyHIDAPIHandle, "manufacturer", rb_manufacturer, 0);
+    rb_define_method(cMyHIDAPIHandle, "product", rb_product, 0);
 }
