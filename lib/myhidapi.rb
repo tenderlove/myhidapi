@@ -1,7 +1,7 @@
 require "myhidapi.so"
 
 module MyHIDAPI
-  VERSION = '1.0.0'
+  VERSION = '1.0.1'
 
   class DeviceInfo
     attr_reader :vendor_id, :product_id, :path, :serial_number, :manufacturer_string, :product_string, :usage, :interface_number
