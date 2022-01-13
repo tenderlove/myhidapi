@@ -192,6 +192,7 @@ rb_product(VALUE self)
 void Init_myhidapi() {
     mMyHIDAPI = rb_define_module("MyHIDAPI");
     cMyHIDAPIHandle = rb_define_class_under(mMyHIDAPI, "Handle", rb_cObject);
+    rb_undef_alloc_func(cMyHIDAPIHandle);
     rb_define_singleton_method(mMyHIDAPI, "enumerate", enumerate, 2);
     rb_define_singleton_method(mMyHIDAPI, "open", rb_hid_open, 2);
     rb_define_singleton_method(mMyHIDAPI, "open_path", rb_hid_open_path, 1);
